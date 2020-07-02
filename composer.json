@@ -3,6 +3,7 @@
   "description": "The Tianfu Union Mark Engine for wechat.",
   "keywords": [
     "tianfuunion",
+    "markengine",
     "mark-wechat"
   ],
   "type": "library",
