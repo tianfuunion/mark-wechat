@@ -1,11 +1,5 @@
 /.git/
 /.idea/
+/.travis.yml
 /vendor
 /composer.lock
-
-storage/*.key
-.env
-Homestead.yaml
-Homestead.json
-/.vagrant
-.phpunit.result.cache
