@@ -14,11 +14,14 @@
         private $config = null;
 
         /**
-         *
          * 回调入口
+         *
          * @param bool $needSign 是否需要签名返回
+         *
+         * @param WxPayConfigInterface $config
+         * @throws WxPayException
          */
-        final public function Handle($config, $needSign = true)
+        final public function Handle(WxPayConfigInterface $config, $needSign = true)
         {
             $this->config = $config;
             $msg = "OK";
@@ -90,9 +93,10 @@
         }
 
         /**
-         *
          * 回复通知
          * @param bool $needSign 是否需要签名输出
+         *
+         * @throws WxPayException
          */
         final private function ReplyNotify($needSign = true)
         {

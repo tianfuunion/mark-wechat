@@ -15,7 +15,7 @@
         /**
          * 设置微信分配的公众账号ID
          * @param string $value
-         **/
+         */
         public function SetAppid($value)
         {
             $this->values['appid'] = $value;
@@ -23,7 +23,7 @@
         /**
          * 获取微信分配的公众账号ID的值
          * @return mixed 值
-         **/
+         */
         public function GetAppid()
         {
             return $this->values['appid'];
@@ -31,7 +31,7 @@
         /**
          * 判断微信分配的公众账号ID是否存在
          * @return true 或 false
-         **/
+         */
         public function IsAppidSet()
         {
             return array_key_exists('appid', $this->values);
@@ -41,7 +41,7 @@
         /**
          * 设置微信支付分配的商户号
          * @param string $value
-         **/
+         */
         public function SetMch_id($value)
         {
             $this->values['mch_id'] = $value;
@@ -49,7 +49,7 @@
         /**
          * 获取微信支付分配的商户号的值
          * @return mixed 值
-         **/
+         */
         public function GetMch_id()
         {
             return $this->values['mch_id'];
@@ -57,7 +57,7 @@
         /**
          * 判断微信支付分配的商户号是否存在
          * @return true 或 false
-         **/
+         */
         public function IsMch_idSet()
         {
             return array_key_exists('mch_id', $this->values);
@@ -67,7 +67,7 @@
         /**
          * 设置微信支付分配的终端设备号，商户自定义
          * @param string $value
-         **/
+         */
         public function SetDevice_info($value)
         {
             $this->values['device_info'] = $value;
@@ -75,7 +75,7 @@
         /**
          * 获取微信支付分配的终端设备号，商户自定义的值
          * @return mixed 值
-         **/
+         */
         public function GetDevice_info()
         {
             return $this->values['device_info'];
@@ -83,7 +83,7 @@
         /**
          * 判断微信支付分配的终端设备号，商户自定义是否存在
          * @return true 或 false
-         **/
+         */
         public function IsDevice_infoSet()
         {
             return array_key_exists('device_info', $this->values);
@@ -93,7 +93,7 @@
         /**
          * 设置随机字符串，不长于32位。推荐随机数生成算法
          * @param string $value
-         **/
+         */
         public function SetNonce_str($value)
         {
             $this->values['nonce_str'] = $value;
@@ -101,7 +101,7 @@
         /**
          * 获取随机字符串，不长于32位。推荐随机数生成算法的值
          * @return mixed 值
-         **/
+         */
         public function GetNonce_str()
         {
             return $this->values['nonce_str'];
@@ -109,7 +109,7 @@
         /**
          * 判断随机字符串，不长于32位。推荐随机数生成算法是否存在
          * @return true 或 false
-         **/
+         */
         public function IsNonce_strSet()
         {
             return array_key_exists('nonce_str', $this->values);
@@ -119,7 +119,7 @@
         /**
          * 设置上报对应的接口的完整URL，类似：https://api.mch.weixin.qq.com/pay/unifiedorder对于被扫支付，为更好的和商户共同分析一次业务行为的整体耗时情况，对于两种接入模式，请都在门店侧对一次被扫行为进行一次单独的整体上报，上报URL指定为：https://api.mch.weixin.qq.com/pay/micropay/total关于两种接入模式具体可参考本文档章节：被扫支付商户接入模式其它接口调用仍然按照调用一次，上报一次来进行。
          * @param string $value
-         **/
+         */
         public function SetInterface_url($value)
         {
             $this->values['interface_url'] = $value;
@@ -127,7 +127,7 @@
         /**
          * 获取上报对应的接口的完整URL，类似：https://api.mch.weixin.qq.com/pay/unifiedorder对于被扫支付，为更好的和商户共同分析一次业务行为的整体耗时情况，对于两种接入模式，请都在门店侧对一次被扫行为进行一次单独的整体上报，上报URL指定为：https://api.mch.weixin.qq.com/pay/micropay/total关于两种接入模式具体可参考本文档章节：被扫支付商户接入模式其它接口调用仍然按照调用一次，上报一次来进行。的值
          * @return mixed 值
-         **/
+         */
         public function GetInterface_url()
         {
             return $this->values['interface_url'];
@@ -135,7 +135,7 @@
         /**
          * 判断上报对应的接口的完整URL，类似：https://api.mch.weixin.qq.com/pay/unifiedorder对于被扫支付，为更好的和商户共同分析一次业务行为的整体耗时情况，对于两种接入模式，请都在门店侧对一次被扫行为进行一次单独的整体上报，上报URL指定为：https://api.mch.weixin.qq.com/pay/micropay/total关于两种接入模式具体可参考本文档章节：被扫支付商户接入模式其它接口调用仍然按照调用一次，上报一次来进行。是否存在
          * @return true 或 false
-         **/
+         */
         public function IsInterface_urlSet()
         {
             return array_key_exists('interface_url', $this->values);
@@ -145,7 +145,7 @@
         /**
          * 设置接口耗时情况，单位为毫秒
          * @param string $value
-         **/
+         */
         public function SetExecute_time_($value)
         {
             $this->values['execute_time_'] = $value;
@@ -153,7 +153,7 @@
         /**
          * 获取接口耗时情况，单位为毫秒的值
          * @return mixed 值
-         **/
+         */
         public function GetExecute_time_()
         {
             return $this->values['execute_time_'];
@@ -161,7 +161,7 @@
         /**
          * 判断接口耗时情况，单位为毫秒是否存在
          * @return true 或 false
-         **/
+         */
         public function IsExecute_time_Set()
         {
             return array_key_exists('execute_time_', $this->values);

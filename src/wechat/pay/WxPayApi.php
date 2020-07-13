@@ -4,10 +4,6 @@
 
     namespace mark\wechat\pay;
 
-    // require_once "WxPay.Exception.php";
-    // require_once "WxPay.Config.Interface.php";
-    // require_once "WxPay.Data.php";
-
     /**
      *
      * 接口访问类，包含所有微信支付API列表的封装，类中方法为static方法，
@@ -256,8 +252,10 @@
          * WxPayWxPayMicroPay中body、out_trade_no、total_fee、auth_code参数必填
          * appid、mchid、spbill_create_ip、nonce_str不需要填入
          * @param WxPayConfigInterface $config 配置对象
-         * @param WxPayWxPayMicroPay $inputObj
+         * @param WxPayMicroPay $inputObj
          * @param int $timeOut
+         * @return array|bool
+         * @throws WxPayException
          */
         public static function micropay($config, $inputObj, $timeOut = 10)
         {
@@ -290,12 +288,13 @@
         }
 
         /**
-         *
          * 撤销订单API接口，WxPayReverse中参数out_trade_no和transaction_id必须填写一个
+         *
          * appid、mchid、spbill_create_ip、nonce_str不需要填入
          * @param WxPayConfigInterface $config 配置对象
          * @param WxPayReverse $inputObj
          * @param int $timeOut
+         * @return array|bool
          * @throws WxPayException
          */
         public static function reverse($config, $inputObj, $timeOut = 6)
@@ -361,8 +360,7 @@
             $xml = $inputObj->ToXml();
 
             $startTimeStamp = self::getMillisecond();//请求开始时间
-            $response = self::postXmlCurl($config, $xml, $url, false, $timeOut);
-            return $response;
+            return self::postXmlCurl($config, $xml, $url, false, $timeOut);
         }
 
         /**
@@ -428,7 +426,7 @@
         /**
          *
          * 支付结果通用通知
-         * @param $config
+         * @param WxPayConfigInterface $config
          * @param callable $callback
          * 直接回调函数使用方法: notify(you_function);
          * 回调类成员函数方法:notify(array($this, you_function));
@@ -436,7 +434,7 @@
          * @param $msg
          * @return bool|mixed
          */
-        public static function notify($config, callable $callback, &$msg)
+        public static function notify(WxPayConfigInterface $config, callable $callback, &$msg)
         {
             //获取通知的数据
             $xml = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
@@ -482,14 +480,14 @@
         }
 
         /**
-         *
          * 上报数据， 上报的时候将屏蔽所有异常流程
+         *
          * @param WxPayConfigInterface $config 配置对象
-         * @param string $usrl
+         * @param string $url
          * @param int $startTimeStamp
          * @param array $data
          */
-        private static function reportCostTime($config, $url, $startTimeStamp, $data)
+        private static function reportCostTime($config, string $url, $startTimeStamp, $data)
         {
             //如果不需要上报数据
             $reportLevenl = $config->GetReportLevenl();
@@ -498,10 +496,8 @@
             }
             //如果仅失败上报
             if ($reportLevenl == 1 &&
-                array_key_exists("return_code", $data) &&
-                $data["return_code"] == "SUCCESS" &&
-                array_key_exists("result_code", $data) &&
-                $data["result_code"] == "SUCCESS") {
+                array_key_exists("return_code", $data) && $data["return_code"] == "SUCCESS" &&
+                array_key_exists("result_code", $data) && $data["result_code"] == "SUCCESS") {
                 return;
             }
 
@@ -554,6 +550,7 @@
          * @param string $url url
          * @param bool $useCert 是否需要证书，默认不需要
          * @param int $second url执行超时时间，默认30s
+         * @return bool|string
          * @throws WxPayException
          */
         private static function postXmlCurl($config, $xml, $url, $useCert = false, $second = 30)
@@ -613,6 +610,8 @@
 
         /**
          * 获取毫秒级别的时间戳
+         *
+         * @return mixed|string
          */
         private static function getMillisecond()
         {
@@ -624,4 +623,3 @@
             return $time;
         }
     }
-

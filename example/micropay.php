@@ -12,8 +12,9 @@
 * 请勿直接直接使用样例对外提供服务
 *
 **/
-require_once "../src/WxPay.Api.php";
-require_once "WxPay.MicroPay.php";
+
+    use mark\wechat\pay\WxPayMicroPay;
+
 require_once 'log.php';
 
 if((isset($_REQUEST["auth_code"]) && !preg_match("/^[0-9]{6,64}$/i", $_REQUEST["auth_code"], $matches)))

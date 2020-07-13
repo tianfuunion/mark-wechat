@@ -13,11 +13,10 @@
      *
      **/
 
+    use mark\wechat\pay\WxPayApi;
     use mark\wechat\pay\WxPayOrderQuery;
 
-    require_once "../src/WxPay.Api.php";
     require_once 'log.php';
-    require_once "WxPay.Config.php";
 
     if ((isset($_REQUEST["transaction_id"]) && $_REQUEST["transaction_id"] != ""
             && !preg_match("/^[0-9a-zA-Z]{10,64}$/i", $_REQUEST["transaction_id"], $matches))

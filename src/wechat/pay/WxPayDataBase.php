@@ -17,9 +17,10 @@
 
         /**
          * 设置签名，详见签名生成算法类型
-         * @param string $value
-         **/
-        public function SetSignType($sign_type)
+         * @param string $sign_type
+         * @return string
+         */
+        public function SetSignType(string $sign_type)
         {
             $this->values['sign_type'] = $sign_type;
             return $sign_type;
@@ -27,9 +28,11 @@
 
         /**
          * 设置签名，详见签名生成算法
-         * @param string $value
-         **/
-        public function SetSign($config)
+         * @param WxPayConfigInterface $config
+         * @return string
+         * @throws WxPayException
+         */
+        public function SetSign(WxPayConfigInterface $config)
         {
             $sign = $this->MakeSign($config);
             $this->values['sign'] = $sign;
@@ -39,7 +42,7 @@
         /**
          * 获取签名，详见签名生成算法的值
          * @return mixed 值
-         **/
+         */
         public function GetSign()
         {
             return $this->values['sign'];
@@ -48,7 +51,7 @@
         /**
          * 判断签名，详见签名生成算法是否存在
          * @return true 或 false
-         **/
+         */
         public function IsSignSet()
         {
             return array_key_exists('sign', $this->values);
@@ -57,7 +60,7 @@
         /**
          * 输出xml字符
          * @throws WxPayException
-         **/
+         */
         public function ToXml()
         {
             if (!is_array($this->values) || count($this->values) <= 0) {
@@ -96,6 +99,8 @@
 
         /**
          * 格式化参数格式化成url参数
+         *
+         * @return string
          */
         public function ToUrlParams()
         {
@@ -138,8 +143,7 @@
             }
 
             //签名步骤四：所有字符转为大写
-            $result = strtoupper($string);
-            return $result;
+            return strtoupper($string);
         }
 
         /**

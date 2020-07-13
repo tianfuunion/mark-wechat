@@ -4,6 +4,7 @@
 
     namespace mark\wechat\notice;
 
+    use mark\system\Os;
     use think\facade\Cache;
     use think\facade\Config;
     use think\facade\Request;
@@ -12,7 +13,7 @@
     use mark\http\Curl;
     use Exception;
 
-    class Notice
+    final  class Notice
     {
 
         protected $appid;
@@ -44,8 +45,6 @@
             $jsonResult = $this->curl_post($url, urldecode($json_template));
             // $jsonResult = $this->curl_post($url, $json_template);
             if (empty($jsonResult)) {
-                // Log::error('Notice Send result is null ' . $jsonResult);
-
                 return '';
             }
             $result = json_decode($jsonResult, true);
@@ -74,7 +73,7 @@
                 }
                 // Db::name('message_template')->insertGetId($post);
             } catch (Exception $exception) {
-                // Log::error('Notice:send(Exception) ' . $exception->getMessage());
+
             }
 
             return $result;
@@ -182,9 +181,7 @@
          *
          * @return false|string
          */
-        private static function eventMsg(
-            string $wxid, string $account, string $status, string $content, $url = '', $time = 0, $first = '', $remark = ''
-        )
+        private static function eventMsg(string $wxid, string $account, string $status, string $content, $url = '', $time = 0, $first = '', $remark = '')
         {
 
             if (empty($account)) {
@@ -200,7 +197,7 @@
                 $time = time();
             }
             if (empty($remark)) {
-                $remark = Request::ip();
+                $remark = Os::getIpvs();
             }
             $template = array(
                 'touser' => $wxid,

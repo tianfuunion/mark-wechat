@@ -5,10 +5,11 @@
     namespace mark\wechat\pay;
 
     /**
-     *
      * 回调回包数据基类
      *
-     **/
+     * Class WxPayNotifyResults
+     * @package mark\wechat\pay
+     */
     class WxPayNotifyResults extends WxPayResults
     {
         /**

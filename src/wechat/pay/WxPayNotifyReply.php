@@ -1,19 +1,15 @@
 <?php
-
     declare (strict_types=1);
 
     namespace mark\wechat\pay;
 
     /**
-     *
      * 回调基础类
      * @author widyhu
-     *
      */
-    class WxPayNotifyReply extends  WxPayDataBaseSignMd5
+    class WxPayNotifyReply extends WxPayDataBaseSignMd5
     {
         /**
-         *
          * 设置错误码 FAIL 或者 SUCCESS
          * @param string
          */
@@ -23,7 +19,6 @@
         }
 
         /**
-         *
          * 获取错误码 FAIL 或者 SUCCESS
          * @return string $return_code
          */
@@ -33,7 +28,6 @@
         }
 
         /**
-         *
          * 设置错误信息
          * @param string $return_code
          */
@@ -53,7 +47,6 @@
         }
 
         /**
-         *
          * 设置返回参数
          * @param string $key
          * @param string $value

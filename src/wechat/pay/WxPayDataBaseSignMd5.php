@@ -5,10 +5,11 @@
     namespace mark\wechat\pay;
 
     /**
-     *
      * 只使用md5算法进行签名， 不管配置的是什么签名方式，都只支持md5签名方式
      *
-     **/
+     * Class WxPayDataBaseSignMd5
+     * @package mark\wechat\pay
+     */
     class WxPayDataBaseSignMd5 extends WxPayDataBase
     {
         /**
@@ -30,7 +31,6 @@
             //签名步骤三：MD5加密
             $string = md5($string);
             //签名步骤四：所有字符转为大写
-            $result = strtoupper($string);
-            return $result;
+            return strtoupper($string);
         }
     }

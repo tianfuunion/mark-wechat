@@ -5,10 +5,11 @@
     namespace mark\wechat\pay;
 
     /**
-     *
      * 关闭订单输入对象
      * @author widyhu
      *
+     * Class WxPayCloseOrder
+     * @package mark\wechat\pay
      */
     class WxPayCloseOrder extends WxPayDataBase
     {
@@ -20,6 +21,7 @@
         {
             $this->values['appid'] = $value;
         }
+
         /**
          * 获取微信分配的公众账号ID的值
          * @return mixed 值
@@ -28,6 +30,7 @@
         {
             return $this->values['appid'];
         }
+
         /**
          * 判断微信分配的公众账号ID是否存在
          * @return true 或 false
@@ -46,6 +49,7 @@
         {
             $this->values['mch_id'] = $value;
         }
+
         /**
          * 获取微信支付分配的商户号的值
          * @return mixed 值
@@ -54,6 +58,7 @@
         {
             return $this->values['mch_id'];
         }
+
         /**
          * 判断微信支付分配的商户号是否存在
          * @return true 或 false
@@ -72,6 +77,7 @@
         {
             $this->values['out_trade_no'] = $value;
         }
+
         /**
          * 获取商户系统内部的订单号的值
          * @return mixed 值
@@ -80,6 +86,7 @@
         {
             return $this->values['out_trade_no'];
         }
+
         /**
          * 判断商户系统内部的订单号是否存在
          * @return true 或 false
@@ -89,7 +96,6 @@
             return array_key_exists('out_trade_no', $this->values);
         }
 
-
         /**
          * 设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
          * @param string $value
@@ -98,6 +104,7 @@
         {
             $this->values['nonce_str'] = $value;
         }
+
         /**
          * 获取商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号的值
          * @return mixed 值
@@ -106,6 +113,7 @@
         {
             return $this->values['nonce_str'];
         }
+
         /**
          * 判断商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号是否存在
          * @return true 或 false

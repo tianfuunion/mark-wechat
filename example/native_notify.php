@@ -14,7 +14,7 @@
 
 // require_once "../src/wechat/pay/WxPayApiphp";
 // require_once '../src/WxPay.Notify.php';
-// require_once "WxPay.Config.php";
+// require_once "WxPayConfig.php";
 // require_once 'log.php';
 
 //初始化日志

@@ -5,10 +5,10 @@
     namespace mark\wechat\pay;
 
     /**
-     *
      * 短链转换输入对象
      * @author widyhu
-     *
+     * Class WxPayShortUrl
+     * @package mark\wechat\pay
      */
     class WxPayShortUrl extends WxPayDataBase
     {
@@ -20,6 +20,7 @@
         {
             $this->values['appid'] = $value;
         }
+
         /**
          * 获取微信分配的公众账号ID的值
          * @return mixed 值
@@ -28,6 +29,7 @@
         {
             return $this->values['appid'];
         }
+
         /**
          * 判断微信分配的公众账号ID是否存在
          * @return true 或 false
@@ -46,6 +48,7 @@
         {
             $this->values['mch_id'] = $value;
         }
+
         /**
          * 获取微信支付分配的商户号的值
          * @return mixed 值
@@ -54,6 +57,7 @@
         {
             return $this->values['mch_id'];
         }
+
         /**
          * 判断微信支付分配的商户号是否存在
          * @return true 或 false
@@ -72,6 +76,7 @@
         {
             $this->values['long_url'] = $value;
         }
+
         /**
          * 获取需要转换的URL，签名用原串，传输需URL encode的值
          * @return mixed 值
@@ -80,6 +85,7 @@
         {
             return $this->values['long_url'];
         }
+
         /**
          * 判断需要转换的URL，签名用原串，传输需URL encode是否存在
          * @return true 或 false
@@ -98,6 +104,7 @@
         {
             $this->values['nonce_str'] = $value;
         }
+
         /**
          * 获取随机字符串，不长于32位。推荐随机数生成算法的值
          * @return mixed 值
@@ -106,6 +113,7 @@
         {
             return $this->values['nonce_str'];
         }
+
         /**
          * 判断随机字符串，不长于32位。推荐随机数生成算法是否存在
          * @return true 或 false

@@ -41,7 +41,7 @@ http://paysdk.weixin.qq.com/
 快速搭建指南
 ①、安装配置nginx+phpfpm+php
 ②、建SDK解压到网站根目录
-③、修改lib/WxPay.Config.php为自己申请的商户号的信息（配置详见说明）
+③、修改lib/WxPayConfig.php为自己申请的商户号的信息（配置详见说明）
 ⑤、下载证书替换cert下的文件
 ⑥、搭建完成
 
@@ -54,11 +54,11 @@ SDK目录结构
 目录功能简介
 lib
 API接口封装代码
-WxPay.Api.php 包括所有微信支付API接口的封装
-WxPay.Config.Interface.php  商户配置 , 业务需要从这里继承（请注意保管自己的密钥/证书等）
-WxPay.Data.php   输入参数封装
-WxPay.Exception.php  异常类
-WxPay.Notify.php    回调通知基类
+WxPayApi.php 包括所有微信支付API接口的封装
+WxPayConfigInterface.php  商户配置 , 业务需要从这里继承（请注意保管自己的密钥/证书等）
+WxPayData.php   输入参数封装
+WxPayException.php  异常类
+WxPayNotify.php    回调通知基类
 
 cert
 证书存放路径，证书可以登录商户平台https://pay.weixin.qq.com/index.php/account/api_cert下载

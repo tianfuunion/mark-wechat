@@ -15,7 +15,7 @@
         /**
          * 设置微信分配的公众账号ID
          * @param string $value
-         **/
+         */
         public function SetAppid($value)
         {
             $this->values['appid'] = $value;
@@ -24,7 +24,7 @@
         /**
          * 获取微信分配的公众账号ID的值
          * @return mixed 值
-         **/
+         */
         public function GetAppid()
         {
             return $this->values['appid'];
@@ -33,7 +33,7 @@
         /**
          * 判断微信分配的公众账号ID是否存在
          * @return true 或 false
-         **/
+         */
         public function IsAppidSet()
         {
             return array_key_exists('appid', $this->values);
@@ -43,7 +43,7 @@
         /**
          * 设置微信支付分配的商户号
          * @param string $value
-         **/
+         */
         public function SetMch_id($value)
         {
             $this->values['mch_id'] = $value;
@@ -52,7 +52,7 @@
         /**
          * 获取微信支付分配的商户号的值
          * @return mixed 值
-         **/
+         */
         public function GetMch_id()
         {
             return $this->values['mch_id'];
@@ -61,7 +61,7 @@
         /**
          * 判断微信支付分配的商户号是否存在
          * @return true 或 false
-         **/
+         */
         public function IsMch_idSet()
         {
             return array_key_exists('mch_id', $this->values);
@@ -71,7 +71,7 @@
         /**
          * 设置微信支付分配的终端设备号，商户自定义
          * @param string $value
-         **/
+         */
         public function SetDevice_info($value)
         {
             $this->values['device_info'] = $value;
@@ -80,7 +80,7 @@
         /**
          * 获取微信支付分配的终端设备号，商户自定义的值
          * @return mixed 值
-         **/
+         */
         public function GetDevice_info()
         {
             return $this->values['device_info'];
@@ -89,7 +89,7 @@
         /**
          * 判断微信支付分配的终端设备号，商户自定义是否存在
          * @return true 或 false
-         **/
+         */
         public function IsDevice_infoSet()
         {
             return array_key_exists('device_info', $this->values);
@@ -99,7 +99,7 @@
         /**
          * 设置随机字符串，不长于32位。推荐随机数生成算法
          * @param string $value
-         **/
+         */
         public function SetNonce_str($value)
         {
             $this->values['nonce_str'] = $value;
@@ -108,7 +108,7 @@
         /**
          * 获取随机字符串，不长于32位。推荐随机数生成算法的值
          * @return mixed 值
-         **/
+         */
         public function GetNonce_str()
         {
             return $this->values['nonce_str'];
@@ -117,7 +117,7 @@
         /**
          * 判断随机字符串，不长于32位。推荐随机数生成算法是否存在
          * @return true 或 false
-         **/
+         */
         public function IsNonce_strSet()
         {
             return array_key_exists('nonce_str', $this->values);
@@ -126,7 +126,7 @@
         /**
          * 设置商品或支付单简要描述
          * @param string $value
-         **/
+         */
         public function SetBody($value)
         {
             $this->values['body'] = $value;
@@ -135,7 +135,7 @@
         /**
          * 获取商品或支付单简要描述的值
          * @return mixed 值
-         **/
+         */
         public function GetBody()
         {
             return $this->values['body'];
@@ -144,7 +144,7 @@
         /**
          * 判断商品或支付单简要描述是否存在
          * @return true 或 false
-         **/
+         */
         public function IsBodySet()
         {
             return array_key_exists('body', $this->values);
@@ -154,7 +154,7 @@
         /**
          * 设置商品名称明细列表
          * @param string $value
-         **/
+         */
         public function SetDetail($value)
         {
             $this->values['detail'] = $value;
@@ -163,7 +163,7 @@
         /**
          * 获取商品名称明细列表的值
          * @return mixed 值
-         **/
+         */
         public function GetDetail()
         {
             return $this->values['detail'];
@@ -172,7 +172,7 @@
         /**
          * 判断商品名称明细列表是否存在
          * @return true 或 false
-         **/
+         */
         public function IsDetailSet()
         {
             return array_key_exists('detail', $this->values);
@@ -182,7 +182,7 @@
         /**
          * 设置附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
          * @param string $value
-         **/
+         */
         public function SetAttach($value)
         {
             $this->values['attach'] = $value;
@@ -191,7 +191,7 @@
         /**
          * 获取附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据的值
          * @return mixed 值
-         **/
+         */
         public function GetAttach()
         {
             return $this->values['attach'];
@@ -200,7 +200,7 @@
         /**
          * 判断附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据是否存在
          * @return true 或 false
-         **/
+         */
         public function IsAttachSet()
         {
             return array_key_exists('attach', $this->values);
@@ -210,7 +210,7 @@
         /**
          * 设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
          * @param string $value
-         **/
+         */
         public function SetOut_trade_no($value)
         {
             $this->values['out_trade_no'] = $value;

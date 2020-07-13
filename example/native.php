@@ -8,7 +8,7 @@
 **/
 
 require_once "../src/WxPay.Api.php";
-require_once "WxPay.NativePay.php";
+require_once "NativePay.php";
 require_once 'log.php';
 
 //初始化日志

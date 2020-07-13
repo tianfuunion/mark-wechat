@@ -16,9 +16,7 @@
     use mark\wechat\pay\WxPayApi;
     use mark\wechat\pay\WxPayRefund;
 
-    require_once "../src/WxPay.Api.php";
     require_once 'log.php';
-    require_once "WxPay.Config.php";
 
     if ((isset($_REQUEST["transaction_id"]) && $_REQUEST["transaction_id"] != ""
             && !preg_match("/^[0-9a-zA-Z]{10,64}$/i", $_REQUEST["transaction_id"], $matches))
@@ -103,7 +101,7 @@
     <input type="text" style="width:96%;height:35px;margin-left:2%;" name="refund_fee"/><br/><br/>
     <div align="center">
         <input type="submit" value="提交退款"
-               style="width:210px; height:50px; border-radius: 15px;background-color:#FE6714; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;"
+               style="width:210px; height:50px; border-radius: 15px;background-color:#FE6714; border:0 #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;"
                type="button" onclick="callpay()"/>
     </div>
 </form>
