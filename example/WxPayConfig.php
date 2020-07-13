@@ -26,7 +26,7 @@
         private $certpath;
         private $keypath;
 
-        public function __construct($appid, $merchantid, $key, $appsecret, &$certpath, &$keypath, $notifyurl = '')
+        public function __construct($appid, $merchantid, $key, $appsecret, $certpath = '', $keypath = '', $notifyurl = '')
         {
             $this->appid = $appid;
             $this->merchantid = $merchantid;
