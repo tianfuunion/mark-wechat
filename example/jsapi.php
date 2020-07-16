@@ -26,7 +26,6 @@
 
     //①、获取用户openid
     try {
-
         $tools = new JsApiPay();
         $openId = $tools->GetOpenid();
 
@@ -130,7 +129,7 @@
 <br/>
 <font color="#9ACD32"><b>该笔订单支付金额为<span style="color:#f00;font-size:50px">1分</span>钱</b></font><br/><br/>
 <div align="center">
-    <button style="width:210px; height:50px; border-radius: 15px;background-color:#FE6714; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;"
+    <button style="width:210px; height:50px; border-radius: 15px;background-color:#FE6714; border:0 #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;"
             type="button" onclick="callpay()">立即支付
     </button>
 </div>

@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>微信支付样例</title>
     <style type="text/css">
         ul {
@@ -13,9 +13,9 @@
         li {
             width: 32%;
             float: left;
-            margin: 0px;
+            margin: 0;
             margin-left:1%;
-            padding: 0px;
+            padding: 0;
             height: 100px;
             display: inline;
             line-height: 100px;

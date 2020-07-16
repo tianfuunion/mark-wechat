@@ -1,16 +1,13 @@
 <?php
-    /**
-     *
-     * example目录下为简单的支付样例，仅能用于搭建快速体验微信支付使用
-     * 样例的作用仅限于指导如何使用sdk，在安全上面仅做了简单处理， 复制使用样例代码时请慎重
-     * 请勿直接直接使用样例对外提供服务
-     *
-     **/
+
+    declare (strict_types=1);
+
+    namespace mark\wechat\wxpay;
 
     use mark\wechat\pay\WxPayApi;
-    use mark\wechat\pay\WxPayConfig;
     use mark\wechat\pay\WxPayException;
     use mark\wechat\pay\WxPayJsApiPay;
+    use think\facade\Config;
 
     /**
      *
@@ -48,7 +45,7 @@
          * 1、设置自己需要调回的url及其其他参数，跳转到微信服务器https://open.weixin.qq.com/connect/oauth2/authorize
          * 2、微信服务处理完成之后会跳转回用户redirect_uri地址，此时会带上一些参数，如：code
          *
-         * @return 用户的openid
+         * @return mixed openid 用户的openid
          */
         public function GetOpenid()
         {
@@ -61,25 +58,20 @@
                 exit();
             } else {
                 //获取code码，以获取openid
-                $code = $_GET['code'];
-                $openid = $this->getOpenidFromMp($code);
-                return $openid;
+                return $this->getOpenidFromMp($_GET['code']);
             }
         }
 
         /**
-         *
          * 获取jsapi支付的参数
-         * @param array $UnifiedOrderResult 统一支付接口返回的数据
-         * @return json数据，可直接填入js函数作为参数
-         * @throws WxPayException
          *
+         * @param array $UnifiedOrderResult 统一支付接口返回的数据
+         * @return false|string json数据，可直接填入js函数作为参数
+         * @throws WxPayException
          */
         public function GetJsApiParameters($UnifiedOrderResult)
         {
-            if (!array_key_exists("appid", $UnifiedOrderResult)
-                || !array_key_exists("prepay_id", $UnifiedOrderResult)
-                || $UnifiedOrderResult['prepay_id'] == "") {
+            if (!array_key_exists("appid", $UnifiedOrderResult) || !array_key_exists("prepay_id", $UnifiedOrderResult) || $UnifiedOrderResult['prepay_id'] == "") {
                 throw new WxPayException("参数错误");
             }
 
@@ -90,18 +82,23 @@
             $jsapi->SetNonceStr(WxPayApi::getNonceStr());
             $jsapi->SetPackage("prepay_id=" . $UnifiedOrderResult['prepay_id']);
 
-            $config = new WxPayConfig();
+            $config = new WxPayConfig(
+                Config::get('auth.stores.wechat.appid'),
+                Config::get('auth.stores.wechat.merchantid'),
+                Config::get('auth.stores.wechat.key'),
+                Config::get('auth.stores.wechat.secret'),
+                config_path() . '/cert/apiclient_cert.pem',
+                config_path() . '/cert/apiclient_key.pem'
+            );
             $jsapi->SetPaySign($jsapi->MakeSign($config));
-            $parameters = json_encode($jsapi->GetValues());
-            return $parameters;
+            return json_encode($jsapi->GetValues());
         }
 
         /**
-         *
          * 通过code从工作平台获取openid机器access_token
          * @param string $code 微信跳转回来带上的code
          *
-         * @return openid
+         * @return mixed openid
          */
         public function GetOpenidFromMp($code)
         {
@@ -110,12 +107,18 @@
             //初始化curl
             $ch = curl_init();
             $curlVersion = curl_version();
-            $config = new WxPayConfig();
-            $ua = "WXPaySDK/3.0.9 (" . PHP_OS . ") PHP/" . PHP_VERSION . " CURL/" . $curlVersion['version'] . " "
-                . $config->GetMerchantId();
+            $config = new WxPayConfig(
+                Config::get('auth.stores.wechat.appid'),
+                Config::get('auth.stores.wechat.merchantid'),
+                Config::get('auth.stores.wechat.key'),
+                Config::get('auth.stores.wechat.secret'),
+                config_path() . '/cert/apiclient_cert.pem',
+                config_path() . '/cert/apiclient_key.pem'
+            );
+            $ua = "WXPaySDK/3.0.9 (" . PHP_OS . ") PHP/" . PHP_VERSION . " CURL/" . $curlVersion['version'] . " " . $config->GetMerchantId();
 
             //设置超时
-            curl_setopt($ch, CURLOPT_TIMEOUT, $this->curl_timeout);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 600);
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
@@ -136,8 +139,7 @@
             //取出openid
             $data = json_decode($res, true);
             $this->data = $data;
-            $openid = $data['openid'];
-            return $openid;
+            return $data['openid'];
         }
 
         /**
@@ -145,7 +147,7 @@
          * 拼接签名字符串
          * @param array $urlObj
          *
-         * @return 返回已经拼接好的字符串
+         * @return string 返回已经拼接好的字符串
          */
         private function ToUrlParams($urlObj)
         {
@@ -161,14 +163,20 @@
         }
 
         /**
-         *
          * 获取地址js参数
          *
-         * @return 获取共享收货地址js函数需要的参数，json格式可以直接做参数使用
+         * @return false|string 获取共享收货地址js函数需要的参数，json格式可以直接做参数使用
          */
         public function GetEditAddressParameters()
         {
-            $config = new WxPayConfig();
+            $config = new WxPayConfig(
+                Config::get('auth.stores.wechat.appid'),
+                Config::get('auth.stores.wechat.merchantid'),
+                Config::get('auth.stores.wechat.key'),
+                Config::get('auth.stores.wechat.secret'),
+                config_path() . '/cert/apiclient_cert.pem',
+                config_path() . '/cert/apiclient_key.pem'
+            );
             $getData = $this->data;
             $data = array();
             $data["appid"] = $config->GetAppId();
@@ -189,8 +197,7 @@
                 "timeStamp" => $data["timestamp"],
                 "nonceStr" => $data["noncestr"]
             );
-            $parameters = json_encode($afterData);
-            return $parameters;
+            return json_encode($afterData);
         }
 
         /**
@@ -198,11 +205,18 @@
          * 构造获取code的url连接
          * @param string $redirectUrl 微信服务器回跳的url，需要url编码
          *
-         * @return 返回构造好的url
+         * @return string 返回构造好的url
          */
         private function _CreateOauthUrlForCode($redirectUrl)
         {
-            $config = new WxPayConfig();
+            $config = new WxPayConfig(
+                Config::get('auth.stores.wechat.appid'),
+                Config::get('auth.stores.wechat.merchantid'),
+                Config::get('auth.stores.wechat.key'),
+                Config::get('auth.stores.wechat.secret'),
+                config_path() . '/cert/apiclient_cert.pem',
+                config_path() . '/cert/apiclient_key.pem'
+            );
             $urlObj["appid"] = $config->GetAppId();
             $urlObj["redirect_uri"] = "$redirectUrl";
             $urlObj["response_type"] = "code";
@@ -215,13 +229,20 @@
         /**
          *
          * 构造获取open和access_toke的url地址
-         * @param string $code，微信跳转带回的code
+         * @param string $code 微信跳转带回的code
          *
-         * @return 请求的url
+         * @return string 请求的url
          */
         private function __CreateOauthUrlForOpenid($code)
         {
-            $config = new WxPayConfig();
+            $config = new WxPayConfig(
+                Config::get('auth.stores.wechat.appid'),
+                Config::get('auth.stores.wechat.merchantid'),
+                Config::get('auth.stores.wechat.key'),
+                Config::get('auth.stores.wechat.secret'),
+                config_path() . '/cert/apiclient_cert.pem',
+                config_path() . '/cert/apiclient_key.pem'
+            );
             $urlObj["appid"] = $config->GetAppId();
             $urlObj["secret"] = $config->GetAppSecret();
             $urlObj["code"] = $code;

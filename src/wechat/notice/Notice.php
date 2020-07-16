@@ -4,18 +4,16 @@
 
     namespace mark\wechat\notice;
 
-    use mark\system\Os;
     use think\facade\Cache;
     use think\facade\Config;
     use think\facade\Request;
     use think\facade\Session;
-    use think\facade\Db;
     use mark\http\Curl;
+    use mark\system\Os;
     use Exception;
 
-    final  class Notice
+    final class Notice
     {
-
         protected $appid;
         protected $appsecret;
 

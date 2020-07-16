@@ -76,7 +76,7 @@
     <input type="text" style="width:96%;height:35px;margin-left:2%;" name="out_trade_no"/><br/><br/>
     <div align="center">
         <input type="submit" value="查询"
-               style="width:210px; height:50px; border-radius: 15px;background-color:#FE6714; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;"
+               style="width:210px; height:50px; border-radius: 15px;background-color:#FE6714; border:0 #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;"
                type="button" onclick="callpay()"/>
     </div>
 </form>

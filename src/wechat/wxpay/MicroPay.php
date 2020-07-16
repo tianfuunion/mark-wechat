@@ -1,11 +1,9 @@
 <?php
-    /**
-     *
-     * example目录下为简单的支付样例，仅能用于搭建快速体验微信支付使用
-     * 样例的作用仅限于指导如何使用sdk，在安全上面仅做了简单处理， 复制使用样例代码时请慎重
-     * 请勿直接直接使用样例对外提供服务
-     *
-     **/
+    declare (strict_types=1);
+
+    namespace mark\wechat\wxpay;
+
+    use think\facade\Config;
 
     use mark\wechat\pay\WxPayApi;
     use mark\wechat\pay\WxPayException;
@@ -40,7 +38,14 @@
         public function pay($microPayInput)
         {
             //①、提交被扫支付
-            $config = new WxPayConfig();
+            $config = new WxPayConfig(
+                Config::get('auth.stores.wechat.appid'),
+                Config::get('auth.stores.wechat.merchantid'),
+                Config::get('auth.stores.wechat.key'),
+                Config::get('auth.stores.wechat.secret'),
+                config_path() . '/cert/apiclient_cert.pem',
+                config_path() . '/cert/apiclient_key.pem'
+            );
             $result = WxPayApi::micropay($config, $microPayInput, 5);
             //如果返回成功
             if (!array_key_exists("return_code", $result)
@@ -95,20 +100,26 @@
         {
             $queryOrderInput = new WxPayOrderQuery();
             $queryOrderInput->SetOut_trade_no($out_trade_no);
-            $config = new WxPayConfig();
+            $config = new WxPayConfig(
+                Config::get('auth.stores.wechat.appid'),
+                Config::get('auth.stores.wechat.merchantid'),
+                Config::get('auth.stores.wechat.key'),
+                Config::get('auth.stores.wechat.secret'),
+                config_path() . '/cert/apiclient_cert.pem',
+                config_path() . '/cert/apiclient_key.pem');
             try {
                 $result = WxPayApi::orderQuery($config, $queryOrderInput);
-            } catch (Exception $e) {
-                Log::ERROR(json_encode($e));
+            } catch (\Exception $e) {
+                // Log::ERROR(json_encode($e));
+                return false;
             }
-            if ($result["return_code"] == "SUCCESS"
-                && $result["result_code"] == "SUCCESS") {
+            if ($result["return_code"] == "SUCCESS" && $result["result_code"] == "SUCCESS") {
                 //支付成功
                 if ($result["trade_state"] == "SUCCESS") {
                     $succCode = 1;
                     return $result;
-                } //用户支付中
-                else if ($result["trade_state"] == "USERPAYING") {
+                } else if ($result["trade_state"] == "USERPAYING") {
+                    //用户支付中
                     $succCode = 2;
                     return false;
                 }
@@ -140,7 +151,14 @@
                 $clostOrder = new WxPayReverse();
                 $clostOrder->SetOut_trade_no($out_trade_no);
 
-                $config = new WxPayConfig();
+                $config = new WxPayConfig(
+                    Config::get('auth.stores.wechat.appid'),
+                    Config::get('auth.stores.wechat.merchantid'),
+                    Config::get('auth.stores.wechat.key'),
+                    Config::get('auth.stores.wechat.secret'),
+                    config_path() . '/cert/apiclient_cert.pem',
+                    config_path() . '/cert/apiclient_key.pem'
+                );
                 $result = WxPayApi::reverse($config, $clostOrder);
 
 
@@ -156,8 +174,8 @@
                 } else if ($result["recall"] == "Y") {
                     return $this->cancel($out_trade_no, ++$depth);
                 }
-            } catch (Exception $e) {
-                Log::ERROR(json_encode($e));
+            } catch (\Exception $e) {
+                // Log::ERROR(json_encode($e));
             }
             return false;
         }
