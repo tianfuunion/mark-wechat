@@ -7,9 +7,6 @@
     use mark\wechat\pay\WxPayApi;
     use mark\wechat\pay\WxPayBizPayUrl;
     use mark\wechat\pay\WxPayUnifiedOrder;
-    use think\facade\Config;
-
-    // require_once 'log.php';
 
     /**
      *
@@ -30,10 +27,10 @@
             $biz->SetProduct_id($productId);
             try {
                 $config = new WxPayConfig(
-                    Config::get('auth.stores.wechat.appid'),
-                    Config::get('auth.stores.wechat.merchantid'),
-                    Config::get('auth.stores.wechat.key'),
-                    Config::get('auth.stores.wechat.secret'),
+                    Config('auth.stores.wechat.appid'),
+                    Config('auth.stores.wechat.merchantid'),
+                    Config('auth.stores.wechat.key'),
+                    Config('auth.stores.wechat.secret'),
                     config_path() . '/cert/apiclient_cert.pem',
                     config_path() . '/cert/apiclient_key.pem'
                 );
@@ -41,6 +38,7 @@
                 return "weixin://wxpay/bizpayurl?" . $this->ToUrlParams($values);
             } catch (\Exception $e) {
                 // Log::ERROR(json_encode($e));
+                return "weixin://wxpay/bizpayurl";
             }
         }
 
@@ -70,10 +68,10 @@
             if ($input->GetTrade_type() == "NATIVE") {
                 try {
                     $config = new WxPayConfig(
-                        Config::get('auth.stores.wechat.appid'),
-                        Config::get('auth.stores.wechat.merchantid'),
-                        Config::get('auth.stores.wechat.key'),
-                        Config::get('auth.stores.wechat.secret'),
+                        Config('auth.stores.wechat.appid'),
+                        Config('auth.stores.wechat.merchantid'),
+                        Config('auth.stores.wechat.key'),
+                        Config('auth.stores.wechat.secret'),
                         config_path() . '/cert/apiclient_cert.pem',
                         config_path() . '/cert/apiclient_key.pem'
                     );

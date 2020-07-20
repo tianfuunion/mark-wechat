@@ -9,6 +9,7 @@
 
     use mark\wechat\pay\WxPayApi;
     use mark\wechat\pay\WxPayUnifiedOrder;
+    use mark\wechat\wxpay\JsApiPay;
 
     require_once 'log.php';
 

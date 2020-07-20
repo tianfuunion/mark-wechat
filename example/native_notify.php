@@ -1,23 +1,14 @@
 <?php
-    /**
-     * example目录下为简单的支付样例，仅能用于搭建快速体验微信支付使用
-     * 样例的作用仅限于指导如何使用sdk，在安全上面仅做了简单处理， 复制使用样例代码时请慎重
-     * 请勿直接直接使用样例对外提供服务
-     *
-     **/
+    declare (strict_types=1);
 
     use mark\wechat\pay\WxPayApi;
     use mark\wechat\pay\WxPayConfigInterface;
     use mark\wechat\pay\WxPayNotify;
     use mark\wechat\pay\WxPayNotifyResults;
     use mark\wechat\pay\WxPayUnifiedOrder;
+    use mark\wechat\wxpay\WxPayConfig;
 
-// require_once "../src/wechat/pay/WxPayApiphp";
-// require_once '../src/WxPay.Notify.php';
-// require_once "WxPayConfig.php";
-// require_once 'log.php';
-
-//初始化日志
+    // 初始化日志
     $logHandler = new CLogFileHandler("../logs/" . date('Y-m-d') . '.log');
     $log = Log::Init($logHandler, 15);
 
@@ -26,7 +17,13 @@
         public function unifiedorder($openId, $product_id)
         {
             //统一下单
-            $config = new WxPayConfig();
+            $config = new WxPayConfig(
+                Config('auth.stores.wechat.appid'),
+                Config('auth.stores.wechat.merchantid'),
+                Config('auth.stores.wechat.key'),
+                Config('auth.stores.wechat.secret'),
+                config_path() . '/cert/apiclient_cert.pem',
+                config_path() . '/cert/apiclient_key.pem');
             $input = new WxPayUnifiedOrder();
             $input->SetBody("test");
             $input->SetAttach("test");
@@ -44,6 +41,7 @@
                 Log::DEBUG("unifiedorder:" . json_encode($result));
             } catch (Exception $e) {
                 Log::ERROR(json_encode($e));
+                $result ='';
             }
             return $result;
         }

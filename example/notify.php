@@ -12,6 +12,7 @@
     use mark\wechat\pay\WxPayNotify;
     use mark\wechat\pay\WxPayNotifyResults;
     use mark\wechat\pay\WxPayOrderQuery;
+    use mark\wechat\wxpay\WxPayConfig;
 
     require_once 'log.php';
 

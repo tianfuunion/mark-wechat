@@ -1,17 +1,16 @@
 <?php
-
     declare (strict_types=1);
 
     namespace mark\wechat;
 
     use think\facade\Cache;
 
-    final  class Jssdk
+    final class Jssdk
     {
 
         private $appId;
         private $appSecret;
-        private $jsapi_ticket_key = 'jsapi_ticket.php';
+        private $jsapi_ticket_key;
 
         public function __construct($appId, $appSecret)
         {
@@ -21,6 +20,10 @@
             $this->jsapi_ticket_key = md5('jsapi_ticket.php');
         }
 
+        /**
+         * 获取SignPackage
+         * @return array
+         */
         public function getSignPackage()
         {
             $jsapiTicket = $this->getJsApiTicket();
@@ -47,6 +50,11 @@
             );
         }
 
+        /**
+         * 生成签名的随机串
+         * @param int $length
+         * @return string
+         */
         private function createNonceStr($length = 16)
         {
             $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -58,34 +66,40 @@
             return $str;
         }
 
+        /**
+         *获取JsApiTicket
+         * @return mixed
+         */
         private function getJsApiTicket()
         {
             // jsapi_ticket 应该全局存储与更新，以下代码以写入到文件中做示例
             // $data = json_decode($this->get_php_file("jsapi_ticket.php"));
             if (Cache::has($this->jsapi_ticket_key)) {
-                $data = json_decode(Cache::get("jsapi_ticket.php"), true);
+                $data = json_decode(Cache::get($this->jsapi_ticket_key), true);
             }
-            $ticket = null;
-            if (empty($data) || $data["expire_time"] < time()) {
+            $ticket = '';
+            if (!empty($data) && isset($data["jsapi_ticket"]) && isset($data["expire_time"]) && $data["expire_time"] > time()) {
+                $ticket = $data["jsapi_ticket"];
+            } else {
                 $accessToken = $this->getAccessToken();
                 // 如果是企业号用以下 URL 获取 ticket
                 // $url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=$accessToken";
                 $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=" . $accessToken;
                 $res = json_decode($this->httpGet($url), true);
-                $ticket = $res["ticket"];
-                if (!empty($ticket)) {
+                if (!empty($res) && isset($res["ticket"]) && !empty($res["ticket"])) {
                     $data["expire_time"] = time() + 7000;
-                    $data["jsapi_ticket"] = $ticket;
+                    $ticket = $data["jsapi_ticket"] = $res["ticket"];
                     // $this->set_php_file("jsapi_ticket.php", json_encode($data));
-                    Cache::set("jsapi_ticket.php", json_encode($data, JSON_UNESCAPED_UNICODE));
+                    Cache::set($this->jsapi_ticket_key, json_encode($data, JSON_UNESCAPED_UNICODE));
                 }
-            } elseif (!empty($data)) {
-                $ticket = $data["jsapi_ticket"];
             }
-
             return $ticket;
         }
 
+        /**
+         * 获取AccessToken
+         * @return mixed
+         */
         private function getAccessToken()
         {
             // access_token 应该全局存储与更新，以下代码以写入到文件中做示例
@@ -94,25 +108,29 @@
             if (Cache::has($this->jsapi_ticket_key)) {
                 $data = json_decode(Cache::get($this->jsapi_ticket_key), true);
             }
-            if (empty($data) || $data["expire_time"] < time()) {
+            $access_token = '';
+            if (!empty($data) && isset($data["access_token"]) && isset($data["expire_time"]) && $data["expire_time"] > time()) {
+                $access_token = $data["access_token"];
+            } else {
                 // 如果是企业号用以下URL获取access_token
                 // $url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$this->appId&corpsecret=$this->appSecret";
-                $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$this->appId&secret=$this->appSecret";
+                $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $this->appId . "&secret=" . $this->appSecret;
                 $res = json_decode($this->httpGet($url), true);
-                $access_token = $res["access_token"];
-                if ($access_token) {
+                if (!empty($res) && isset($res["access_token"])) {
                     $data["expire_time"] = time() + 7000;
-                    $data["access_token"] = $access_token;
+                    $data["access_token"] = $access_token = $res["access_token"];
                     // $this->set_php_file($this->jsapi_ticket_key, json_encode($data));
                     Cache::set($this->jsapi_ticket_key, json_encode($data));
                 }
-            } else {
-                $access_token = $data["access_token"];
             }
 
             return $access_token;
         }
 
+        /**
+         * @param $url
+         * @return bool|string
+         */
         private function httpGet($url)
         {
             $curl = curl_init();
@@ -130,11 +148,23 @@
             return $res;
         }
 
+        /**
+         * 获取缓存文件
+         * @param $filename
+         * @return string
+         * @deprecated
+         */
         private function get_php_file($filename)
         {
             return trim(substr(file_get_contents($filename), 15));
         }
 
+        /**
+         * 设置缓存文件
+         * @param $filename
+         * @param $content
+         * @deprecated
+         */
         private function set_php_file($filename, $content)
         {
             $fp = fopen($filename, "w");

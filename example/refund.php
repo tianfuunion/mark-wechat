@@ -15,6 +15,7 @@
 
     use mark\wechat\pay\WxPayApi;
     use mark\wechat\pay\WxPayRefund;
+    use mark\wechat\wxpay\WxPayConfig;
 
     require_once 'log.php';
 

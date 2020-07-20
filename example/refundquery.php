@@ -15,9 +15,9 @@
 
     use mark\wechat\pay\WxPayApi;
     use mark\wechat\pay\WxPayRefundQuery;
+    use mark\wechat\wxpay\WxPayConfig;
 
     require_once 'log.php';
-    require_once "WxPayConfig.php";
 
     //初始化日志
     $logHandler = new CLogFileHandler("../logs/" . date('Y-m-d') . '.log');

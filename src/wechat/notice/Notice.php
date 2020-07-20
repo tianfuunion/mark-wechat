@@ -5,7 +5,6 @@
     namespace mark\wechat\notice;
 
     use think\facade\Cache;
-    use think\facade\Config;
     use think\facade\Request;
     use think\facade\Session;
     use mark\http\Curl;
@@ -23,8 +22,8 @@
                 $this->appid = $appid;
                 $this->appsecret = $appsecret;
             } else {
-                $this->appid = Config::get('auth.stores.wechat.appid');
-                $this->appsecret = Config::get('auth.stores.wechat.secret');
+                $this->appid = Config('auth.stores.wechat.appid');
+                $this->appsecret = Config('auth.stores.wechat.secret');
             }
         }
 
@@ -37,7 +36,6 @@
          */
         public function send(string $json_template)
         {
-
             // 模板消息
             $url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=' . $this->access_token();
             $jsonResult = $this->curl_post($url, urldecode($json_template));
@@ -91,23 +89,18 @@
             }
 
             $token = Curl::getInstance()->post($token_url)->toArray();
-            if (!empty($token)) {
-                if (!empty($token['access_token'])) {
-                    Cache::set('access_token', $token['access_token'], 7000);
-
-                    return $token['access_token'];
-                }
+            if (!empty($token) && !empty($token['access_token'])) {
+                Cache::set('access_token', $token['access_token'], 7000);
+                return $token['access_token'];
             }
 
             $json_token = $this->curl_post($token_url);
             if (!empty($json_token)) {
                 $token = json_decode($json_token, true);
-                if (!empty($token)) {
-                    if (!empty($token['access_token'])) {
-                        Cache::set('access_token', $token['access_token'], 7000);
+                if (!empty($token) && !empty($token['access_token'])) {
+                    Cache::set('access_token', $token['access_token'], 7000);
 
-                        return $token['access_token'];
-                    }
+                    return $token['access_token'];
                 }
             }
 
@@ -157,7 +150,7 @@
         )
         {
             // Log::info('Notice::RunEvent()' . json_encode(func_get_args(), JSON_UNESCAPED_UNICODE));
-            $notice = new Notice(Config::get('auth.stores.wechat.appid'), Config::get('auth.stores.wechat.secret'));
+            $notice = new Notice(Config('auth.stores.wechat.appid'), Config('auth.stores.wechat.secret'));
             if ($time == 0) {
                 $time = time();
             }

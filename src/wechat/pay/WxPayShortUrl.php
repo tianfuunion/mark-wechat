@@ -7,6 +7,7 @@
     /**
      * 短链转换输入对象
      * @author widyhu
+     *
      * Class WxPayShortUrl
      * @package mark\wechat\pay
      */

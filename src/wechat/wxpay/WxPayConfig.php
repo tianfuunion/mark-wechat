@@ -10,7 +10,7 @@
      * 该类需要业务自己继承， 该类只是作为deamon使用,实际部署时，请务必保管自己的商户密钥，证书等
      *
      * Class WxPayConfig
-     * @package mark\wechat\pay
+     * @package mark\wechat\wxpay
      */
     class WxPayConfig extends WxPayConfigInterface
     {
