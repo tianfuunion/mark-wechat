@@ -20,6 +20,7 @@
         {
             $this->values['appid'] = $value;
         }
+
         /**
          * 获取微信分配的公众账号ID的值
          * @return mixed 值
@@ -28,6 +29,7 @@
         {
             return $this->values['appid'];
         }
+
         /**
          * 判断微信分配的公众账号ID是否存在
          * @return true 或 false
@@ -46,6 +48,7 @@
         {
             $this->values['mch_id'] = $value;
         }
+
         /**
          * 获取微信支付分配的商户号的值
          * @return mixed 值
@@ -54,6 +57,7 @@
         {
             return $this->values['mch_id'];
         }
+
         /**
          * 判断微信支付分配的商户号是否存在
          * @return true 或 false
@@ -72,6 +76,7 @@
         {
             $this->values['device_info'] = $value;
         }
+
         /**
          * 获取微信支付分配的终端设备号，商户自定义的值
          * @return mixed 值
@@ -80,6 +85,7 @@
         {
             return $this->values['device_info'];
         }
+
         /**
          * 判断微信支付分配的终端设备号，商户自定义是否存在
          * @return true 或 false
@@ -98,6 +104,7 @@
         {
             $this->values['nonce_str'] = $value;
         }
+
         /**
          * 获取随机字符串，不长于32位。推荐随机数生成算法的值
          * @return mixed 值
