@@ -1,5 +1,6 @@
 /.git
 /.idea
+/.idea/
 /.travis.yml
 /vendor
 /composer.lock
