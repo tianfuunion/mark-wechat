@@ -1,5 +1,4 @@
-/.git
-/.idea
+/.git/
 /.idea/
 /.travis.yml
 /vendor
