@@ -1,5 +1,5 @@
 /.git/
 /.idea/
 /.travis.yml
-/vendor
+/vendor/
 /composer.lock

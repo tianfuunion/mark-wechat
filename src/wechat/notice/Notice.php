@@ -88,7 +88,9 @@
                 return Cache::get('access_token');
             }
 
-            $token = Curl::getInstance()->post($token_url)->toArray();
+            $token = Curl::getInstance(true)
+                ->post($token_url)
+                ->toArray();
             if (!empty($token) && !empty($token['access_token'])) {
                 Cache::set('access_token', $token['access_token'], 7000);
                 return $token['access_token'];
@@ -99,7 +101,6 @@
                 $token = json_decode($json_token, true);
                 if (!empty($token) && !empty($token['access_token'])) {
                     Cache::set('access_token', $token['access_token'], 7000);
-
                     return $token['access_token'];
                 }
             }
